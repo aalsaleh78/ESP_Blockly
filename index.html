@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmad Google Blockly</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="assets/js/lib/jquery-3.1.1-min.js"></script>
+    <script src="assets/js/lib/bootstrap.min.js"></script>
+    <script src="assets/js/lib/blockly.min.js"></script>
+</head>
+
+<body>
+    <div class="cContainer" id="iContainer">
+        <div class="cHeader">
+            <ul class="cCtrlBtn">
+                <li>
+                    <img src="assets/images/icons/new.svg">
+                </li>
+                <li>
+                    <img src="assets/images/icons/open.svg">
+                </li>
+                <li>
+                    <img src="assets/images/icons/save.svg">
+                </li>
+            </ul>
+        </div>
+        <div id="blocklyDiv"></div>
+
+        <div class="cOutput">
+            <div id="iCodeLineNumber" spellcheck="false" oninput="auto_height(this)" wrap="off"></div>
+            <div id="iCodeOutput" onchange="taChange();" onkeyup="taChange(event)" spellcheck="false" oninput="auto_height(this)" wrap="off" contenteditable="true"></div>>
+        </div>
+    </div>
+    <div class="cCanvasContainer"></div>
+   
+    <xml id="toolbox" style="display: none"></xml>
+
+    <!-- Popup: create variable  -->
+    <div class="modal esp32-modal esp32-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="variable-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="create_variable">Create Variable</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label id="var_name">Name</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="text" id="txt_varName" placeholder="Enter Variable name">
+                            <p id="lbl_varName" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label id="var_value">Value</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="text" id="txt_varValue" placeholder="Enter value">
+                            <p id="lbl_varValue" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" id="btn_varCreate">Create</button>
+                            <button class="btn btn-blue btn-block" id="btn_varUpdate" style="display:none">Update</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" data-dismiss="modal" id="btn_var_close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup: modify variable  -->
+    <div class="modal esp32-modal esp32-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="modifyVariable-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="lblModifyvarheading">Modify Variables</h4>
+                </div>
+                <div class="modal-body" id="modifyvarDynamicdiv">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup: rename variable  -->
+    <div class="modal fade esp32-modal esp32-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="RenameVariable-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="lblheadingRename"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label class="text-info">Name</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <p id="lbl_prev_variable_name" class="hidden"></p>
+                            <input type="text" id="txt_RenameVariable">
+                            <p id="lbl_RenameVariable" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" id="btn_RenameVariable">Change</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup: create text  -->
+    <div class="modal fade esp32-modal esp32-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="text-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="lblheadingText">Modify Text</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label class="text-info" id="lblTextName">Name</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="text" id="txt_TextName">
+                            <p id="lbl_TextName" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label class="text-info" id="lblTextValue">Text</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="text" id="txt_TextValue">
+                            <p id="lbl_TextValue" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" id="btn_TextCreate">Create</button>
+                            <button class="btn btn-blue btn-block" id="btn_TextUpdate" style="display:none">Update</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" data-dismiss="modal" id="btnTextClose">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup: modify text  -->
+    <div class="modal fade esp32-modal esp32-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="modifyText-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="lblModifytextheading">Texts</h4>
+                </div>
+                <div class="modal-body" id="modifytextDynamicdiv">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup: creaate array  -->
+    <div class="modal fade esp32-modal esp32-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="array-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="lblheadingArray"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label class="text-info" id="lblArrayName">Name</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="text" id="txt_ArrayName">
+                            <p id="lbl_ArrayName" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label class="text-info" id="lblArraySize">Size</label>
+                        </div>
+                        <div class="col-xs-9 customenumberField">
+                            <input type="number" min="1" step="1" id="txt_ArrayValue">
+                            <p id="lbl_ArrayValue" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-12">
+                            <span id="lbl_enter_values"> Enter Values</span>
+                            <label class="switch"><input id="customArrayChk" type="checkbox" disabled="">
+                                <div></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 scrollh">
+                            <table>
+                                <tbody><tr id="dynamicDiv">
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" id="btn_ArrayCreate">Create</button>
+                            <button class="btn btn-blue btn-block" id="btn_ArrayUpdate" style="display:none">Update</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" data-dismiss="modal" id="btnArrayClose">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup: modify array  -->
+    <div class="modal fade esp32-modal esp32-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="modifyArray-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="lblModifyheading">Arrays</h4>
+                </div>
+                <div class="modal-body" id="modifyarrayDynamicdiv">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup: rename array  -->
+    <div class="modal fade ebot-modal ebot-modal-mobile drag-popup ui-draggable ui-draggable-handle" id="RenameArray-popup" tabindex="-1" role="dialog" aria-labelledby="">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="button" data-dismiss="modal" class="btn-close" value="x">
+                    <h4 class="modal-title" id="lblheadingArrayRename"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label class="text-info">Name</label>
+                        </div>
+                        <div class="col-xs-9">
+                            <p id="lbl_prev_Array_name" class="hidden"></p>
+                            <input type="text" id="txt_RenameArray">
+                            <p id="lbl_RenameArray" class="text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" aria-label="Close" id="btn_RenameArray">Change</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-blue btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/popup.js"></script>
+    <script src="assets/js/node.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/code.js"></script>
+    <script src="assets/js/Input/InputSet.js"></script>
+    <script src="assets/js/Output/OutputSet.js"></script>
+    <script src="assets/js/Flow/FlowSet.js"></script>
+    <script src="assets/js/Logic/LogicSet.js"></script>
+
+     <script src="assets/js/Text/TextSet.js"></script>
+    <script src="assets/js/Variables/VariabesSet.js"></script>
+    <script src="assets/js/Array/ArraysSet.js"></script>
+    <script src="assets/js/Advanced/AdvancedSet.js"></script>
+
+
+    <script src="assets/js/Blockly/BlocklyWorkspace.js"></script>
+    <script src="assets/js/Blockly/BlocklyType.js"></script>
+    <!--<script src="assets/js/BlocklyStaticTyping.js"></script>-->
+    <script src="assets/js/Blockly/BlocklyGenerator.js"></script>
+    <script src="assets/js/Blockly/BlocklyToC.js"></script>
+
+     <script src="assets/js/Advanced/CustomizedAdvanced.js"></script>
+    <script src="assets/js/Array/CustomizedArray.js"></script>
+    <script src="assets/js/Flow/CustomizedFlow.js"></script>
+    <script src="assets/js/Input/CustomizedInput.js"></script>
+
+     <script src="assets/js/Logic/CustomizedLogic.js"></script>
+    <script src="assets/js/Output/CustomizedOutput.js"></script>
+    <script src="assets/js/Text/CustomizedText.js"></script>
+    <script src="assets/js/Variables/CustomizedVariables.js"></script>
+
+   
+    <script src="assets/js/customize-code.js"></script>
+</body>
+
+</html>
