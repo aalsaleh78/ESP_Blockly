@@ -639,12 +639,12 @@ Blockly.Blocks['rgbstrip'] = {
         var currPinArray = Blockly.Blocks.getUnusedpins(this);
         var dropdown_types = [["Color Wipe", "color_wipe"], ["Rainbow", "rainbow"], ["Individual Colors", "individual_colors"]];
         //=============== define the icon of the rgbstrip output block
-        
+
         this.appendDummyInput()
           .appendField(new Blockly.FieldImage("assets/images/icons/blue.png", 15, 15, { alt: "*", flipRtl: "FALSE" }))
           .appendField("RGB Strip");
         //============ define the default view of the rgbstrip output before customization
-       
+
         var pinPanel = this.appendDummyInput('pinPanel')
           .appendField("Pin")
           .appendField(new Blockly.FieldDropdown(currPinArray), "Pin");
@@ -789,10 +789,13 @@ Blockly.Blocks['rgbstrip'] = {
                     BouncePanel.setVisible(false);
                     NumberofLeds.max_ = 10;
 
-                    var number_led = parseInt(NumberofLeds.text_);
-                    if (Blockly.Blocks.ConnectedBoard == "FFC_ESP32" && Pin_value == '11') {
+                    var number_led = parseInt(NumberofLeds.value_); //text
+                    //window.alert(number_led);
+                    if (Blockly.Blocks.ConnectedBoard == "FFC_ESP32") {  // && Pin_value == '11'
                         //   number_led = parseInt(NumberofLedspro.text_);
+                       // window.alert("FFC_ESP32--Here");
                         number_led = parseInt(NumberofLedspro.value_);
+                        //window.alert(number_led);
                     }
                     else {
                         if (number_led > 10) {
@@ -800,9 +803,11 @@ Blockly.Blocks['rgbstrip'] = {
                             number_led = 10;
                         }
                     }
-
+                    //=================================update here 16-5-22======================
                     for (var i = 2; i <= 11; i++) {
                         var pickerLed = iColorPanel.fieldRow[i - 1];
+                        number_led = parseInt(NumberofLeds.value_);
+                        //window.alert(number_led);
                         if (i <= number_led + 1) {
                             if (!pickerLed.visible_) {
                                 changes++;
@@ -825,6 +830,7 @@ Blockly.Blocks['rgbstrip'] = {
                     BouncePanel.setVisible(true);
 
                     changes++;
+
                 }
 
                 if (changes > 0) {

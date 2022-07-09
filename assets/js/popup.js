@@ -76,7 +76,7 @@ Code.bindActionFunctions = function () {
 //====================== building the window of variable creation =====================
 Code.createVariablePopup = function (callback) {
     $('#create_variable').text(Blockly.Msg.create_variable);
-
+    window.alert("createVariablePopup");
     var oldPopup = $('#modifyVariable-popup');
     var popup = $('#variable-popup');
     var nameLabel = $('#lbl_varName');
@@ -141,9 +141,10 @@ Code.createchangeInitialVariablePopup = function (a, b, call) {
     });
 };
 
-Code.createRenameVariablePopup = function (a, b, callback) {
+Code.createRenameVariablePopup = function (a, b) {//callback
     $('#lblheadingRename').text('Rename Variable');
-
+    window.alert("rename popup");
+    //window.alert(callback);
     var popup = $('#RenameVariable-popup');
     var txtval = $('#txt_RenameVariable');
     var txtprevval = $('#lbl_prev_variable_name');
@@ -168,17 +169,28 @@ Code.createRenameVariablePopup = function (a, b, callback) {
             popup.modal('hide');
             txtprevval.text('');
             errorLabel.hide();
-            callback(prev_name, new_name);
+            //window.alert("old" + prev_name);
+            //window.alert("new_name" + new_name);
+            //callback(prev_name, new_name);
+            //prev_name = new_name;
+            //Blockly.Workspace.prototype.renameVariable(prev_name, new_name);
+            //Blockly.Workspace.prototype.variableList
+            window.alert("Last");
+            //Blockly.Workspace.prototype.renameVariable(prev_name, new_name);
+            Code.listVariablePopup('toolbox');
+            //code.showModifyVariablePopup(prev_name);
+            // Blockly.Workspace.prototype.deleteVariable(prev_name);
+            //Blockly.variableDeleteFunction(prev_name);
         }
     });
 };
 
 Code.showModifyVariablePopup = function (a) {
     $('#create_variable').text(Blockly.Msg.modify_variable);
-
+    window.alert("showModifyVariablePopup");
     var variableindex = Blockly.Workspace.prototype.variableList.indexOf(a);
     var variablevalue = Blockly.Workspace.prototype.variableValueList[variableindex];
-
+    window.alert("showModifyVariablePopup var==" + a);
     var oldPopup = $('#modifyVariable-popup');
     var popup = $('#variable-popup');
     var nameLabel = $('#lbl_varName');
@@ -214,9 +226,11 @@ Code.showModifyVariablePopup = function (a) {
             valueLabel.text('Invalid value');
         }
         else {
+
             popup.modal('hide');
             var n = name.val();
             var v = parseInt(value.val());
+            window.alert("showModifyVariablePopup else==" + n);
             nameLabel.hide();
             valueLabel.hide();
             Blockly.Workspace.prototype.variableValueList[variableindex] = v;
@@ -224,14 +238,14 @@ Code.showModifyVariablePopup = function (a) {
         }
         Code.renderContent(false);
         Code.listVariablePopup('toolbox');
-        toCode('ESP32'); 
+        toCode('ESP32');
     });
 };
 
 Code.listVariablePopup = function (type) {
     var popup = $('#modifyVariable-popup');
     popup.modal('show');
-
+    window.alert("popup");
     var dynamicDiv = document.getElementById("modifyvarDynamicdiv");
     dynamicDiv.innerHTML = "";
     for (var i = 0; i < Blockly.Workspace.prototype.variableList.length; i++) {
@@ -251,7 +265,7 @@ Code.listVariablePopup = function (type) {
 
 Code.createtextPopup = function (callback) {
     $('#lblheadingText').text(Blockly.Msg.texts);
-
+    window.alert("callback");
     var oldPopup = $('#modifyText-popup');
     var popup = $('#text-popup');
     var nameLabel = $('#lbl_TextName');

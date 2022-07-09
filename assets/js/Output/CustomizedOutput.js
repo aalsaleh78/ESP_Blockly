@@ -580,6 +580,7 @@ Blockly.ESP32.servo_device = function (block) {
         }
         else if (isNaN(parseInt(value_varAngle, 10))) {
             value_varAngle = '"+' + value_varAngle + '+"';
+            window.alert(value_varAngle);
         }
 
         if (block.outputCount_) {
@@ -588,6 +589,7 @@ Blockly.ESP32.servo_device = function (block) {
             if (Blockly.isMobile) {
                 code = 'ESP32.WriteEsp("SE ' + totalCount + ' ' + Blockly.ESP32.pin_to_number(dropdown_pin) + ' ' + value_varAngle;
             } else {
+                //window.alert(value_varAngle + "1");
                 code = 'myservo_' + dropdown_pin + '.write(' + value_varAngle + ');\n';
             }
 
@@ -608,6 +610,7 @@ Blockly.ESP32.servo_device = function (block) {
                 if (Blockly.isMobile) {
                     code += ' ' + Blockly.ESP32.pin_to_number(dropdown_pinNxt) + ' ' + value_varAngleNxt;
                 } else {
+                    //window.alert(value_varAngle + "2");
                     code += 'myservo_' + dropdown_pinNxt + '.write(' + value_varAngleNxt + ');\n';
                 }
             }
@@ -620,7 +623,11 @@ Blockly.ESP32.servo_device = function (block) {
             if (Blockly.isMobile) {
                 code = 'ESP32.WriteEsp("SE 1 ' + Blockly.ESP32.pin_to_number(dropdown_pin) + ' ' + value_varAngle + '");\n';
             } else {
-                code += 'myservo_' + dropdown_pin + '.write(' + value_varAngle + ');\n';
+                //=================================update here 16-5-22======================
+                if (value_varAngle == 0)   //new
+                    code += 'myservo_' + dropdown_pin + '.write(0);\n';  //new
+                    else
+                    code += 'myservo_' + dropdown_pin + '.write(' + value_varAngle + ');\n';
             }
         }
     }

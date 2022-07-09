@@ -1,8 +1,4 @@
-//=======================================================
-//This is the main file of the system. all the blocks, variables, arrays, text, flow, logic are initialized and declared here
-//=========================================================================
 'use strict';
-//========================= define the code variable and tabs that contain blocks ====================
 var Code = Code || {};
 Code.workspace = null; // Blockly's main workspace (svg type)
 // let workspace;
@@ -11,7 +7,7 @@ Code.selected = 'blockcode';
 var toolbox_width = 90;
 let actionQueue = [];
 
-//===================== define the Variables that initialize values in block components =====================
+// Variables
 Blockly.Blocks.MinValue = 0;
 Blockly.Blocks.MaxValue = 1023;
 Blockly.Blocks.ConnectedBoard = "FFC_ESP32";
@@ -25,12 +21,12 @@ Blockly.Blocks.InputPinArray = [["A0", "A0"], ["A1", "A1"], ["A2", "A2"], ["A3",
 Blockly.Blocks.OutputPinArray = [["O0", "O0"], ["O1", "O1"], ["O2", "O2"], ["O3", "O3"], ["O4", "O4"], ["O5", "O5"], ["O6", "O6"], ["O7", "O7"], ["O8", "O8"], ["O9", "O9"]];
 Blockly.Blocks.OutputPinArray_AW = [["2", "2"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"]];
 //end
-//================ the function that listen to drag blocks in the workspace ==================
+
 Blockly.dragMode_ = Blockly.DRAG_NONE;
 Code.blocklyIsDragging = function () {
     return (Blockly.dragMode_ != 0);
 };
-// =================== function to define the workspace window size,define the blocks on the workspace =========================
+
 Code.tabClick = function (clickedName) {
     var window_height = $(window).height();
     var window_width = $(window).width();
@@ -128,7 +124,7 @@ return;
 
     Blockly.svgResize(Code.workspace);
 };
-// =============================================== define the objects to be defined in the workspace ==================
+
 var goog = /* goog || */ {};
 goog.isDef = function (a) {
     return void 0 !== a
@@ -160,7 +156,7 @@ goog.inherits = function (a, b) {
         return b.prototype[c].apply(a, g)
     }
 };
-// =============================================== define the color, styles of all blocks in the workspace ==================
+
 goog.color = {};
 goog.color.names = {
     aliceblue: "#f0f8ff",
@@ -311,7 +307,6 @@ goog.color.names = {
     yellow: "#ffff00",
     yellowgreen: "#9acd32"
 };
-// ========================= convert the hex color values to color =================
 goog.color.parse = function (a) {
     var b = {};
     a = String(a);
@@ -322,12 +317,10 @@ goog.color.parse = function (a) {
     if (goog.color.names && (c = goog.color.names[a.toLowerCase()])) return b.hex = c, b.type = "named", b;
     throw Error(a + " is not a valid color string");
 };
-// ========================= check the correctness values of the entered color is valid or not =================
 goog.color.isValidColor = function (a) {
     var b = goog.color.prependHashIfNecessaryHelper(a);
     return !!(goog.color.isValidHexColor_(b) || goog.color.isValidRgbColor_(a).length || goog.color.names && goog.color.names[a.toLowerCase()])
 };
-//======================= parse or convert RGB values to color =======================
 goog.color.parseRgb = function (a) {
     var b = goog.color.isValidRgbColor_(a);
     if (!b.length) throw Error(a + " is not a valid RGB color");
@@ -1214,136 +1207,133 @@ goog.asserts.getType_ = function (a) {
     return a instanceof Function ? a.displayName || a.name || "unknown type name" : a instanceof Object ? a.constructor.displayName || a.constructor.name || Object.prototype.toString.call(a) : null === a ? "null" : typeof a
 };
 
-//========================= define function for blocks action of Input menu =========================
-//========================== Add BluetoothRx input on the workspace =======================
+// Function for blocks action of Input menu
 function inputBluetoothRx(val) {
   actionQueue.push({ type: 'l', value: val });
   assembleBlocks.push({item: 'bluetoothrx', value: val});
 }
-//========================== Add Button input on the workspace =======================
+
 function inputButton(val) {
   actionQueue.push({ type: 'l', value: val });
     assembleBlocks.push({item: 'button', value: val});
 }
-//========================== Add Remote input on the workspace =======================
+
 function inputIrRemote(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add IR sensor input on the workspace =======================
+
 function inputIrSensor(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add LightSensor input on the workspace =======================
+
 function inputLightSensor(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Potentiometer input on the workspace =======================
+
 function inputPotentiometer(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add SerialRx input on the workspace =======================
+
 function inputSerialRx(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Temperature input on the workspace =======================
+
 function inputTemperature(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Touchpad input on the workspace =======================
+
 function inputTouchpad(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Ultrasonic input on the workspace =======================
+
 function inputUltrasonic(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//===========================================================================================
-//================== Function for blocks action of Output menu =====================
-//========================== Add BluetoothTx output on the workspace =======================
+
+// Function for blocks action of Output menu
 function outputBluetoothTx(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Buzzer output on the workspace =======================
+
 function outputBuzzer(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add LCD output on the workspace =======================
+
 function outputLcd(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add LED output on the workspace =======================
+
 function outputLed(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Motor output on the workspace =======================
+
 function outputMotor(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Mp3Player output on the workspace =======================
+
 function outputMp3Player(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Relay output on the workspace =======================
+
 function outputRelay(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add RgbStrip output on the workspace =======================
+
 function outputRgbStrip(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Servo output on the workspace =======================
+
 function outputServo(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add StepperMotor output on the workspace =======================
+
 function outputStepperMotor(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================================================================================
-//============================= Function for blocks action of Flow menu=================
-//========================== Add Break flow on the workspace =======================
+
+// Function for blocks action of Flow menu
 function flowBreak(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add CustomCode flow on the workspace =======================
+
 function flowCustomCode(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Delay flow on the workspace =======================
+
 function flowDelay(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Repeat flow on the workspace =======================
+
 function flowRepeat(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add Stop flow on the workspace =======================
+
 function flowStop(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Add WaitInput flow on the workspace =======================
+
 function flowWaitInput(val) {
   actionQueue.push({ type: 'l', value: val });
 }
-//========================== Adgust the lines and their number at the workspace =======================
+
 // String.prototype.lines = function() { return this.split(/\r*\n*<br>/); }
 String.prototype.lines = function() { return this.replace(/<div><br><\/div>/ig, "\r").replace(/<br>/ig, "\r").replace(/<div>/ig, "\r").split(/\r/); }
 String.prototype.lineCount = function() { return this.lines().length; }
 
-//====================== Get text area column counts: input id ================================
+// Get text area column counts: input id
 function getTextAreaColCount(p_strTextAreaId)  {
     return (document.getElementById(p_strTextAreaId).innerHTML).lineCount();
     // return (document.getElementById(p_strTextAreaId).value).lineCount();
 }
 
-//=============================== Update code container manually=======================
+// Update code container manually
 function updateCodeContainer() { 
     updateLineNumber();
     update_height('iCodeLineNumber');
     update_height('iCodeOutput');
 }
 
-//================================ Update height on text update =====================================
+// Update height on text update
 function auto_height(elem) {  
     update_height(elem.id);
 
@@ -1353,14 +1343,14 @@ function auto_height(elem) {
     }
 }
 
-// ============================== Change height for selected text area ===========================
+// Change height for selected text area
 function update_height(textAreaId) {  
     let elem = document.getElementById(textAreaId);
     elem.style.height = "1px";
     elem.style.height = (elem.scrollHeight)+"px";
 }
 
-// ==================== Update line number when blocks added ===================================
+// Update line number
 function updateLineNumber() {
     let nTotalLines = getTextAreaColCount('iCodeOutput');
     let strLines = '';
@@ -1374,7 +1364,7 @@ function updateLineNumber() {
     // codeLineNumber.value = strLines;
 }
 
-// ============================ On change code on the workspace =================================
+// On change code
 function taChange(event) {
     if (event.target.id == 'iCodeOutput' && event.keyCode == 13) {
         // let output = document.getElementById('iCodeOutput');
@@ -1382,7 +1372,7 @@ function taChange(event) {
     }
 }
 
-//================================== Code information variables ================================
+// Code information variables
 let arrCodeKeywords = ['void'];
 let objCodeClassNames = {keyword: 'codeKeyword', header: 'codeHeader', method: 'codeMethod'};
 
@@ -1390,17 +1380,21 @@ let objCodeClassNames = {keyword: 'codeKeyword', header: 'codeHeader', method: '
 function toCode(lang) { 
   assembleBlocks = [];
   
-
+//   let strWorkSpaceCode = Blockly[lang].workspaceToCode(workspace);
   let strWorkSpaceCode = Blockly[lang].workspaceToCode(Code.workspace);
+//   eval(strWorkSpaceCode);
+//   console.log(strWorkSpaceCode);
   let output = document.getElementById('iCodeOutput');
   let strCode = strWorkSpaceCode;
   strCode = strCode.replace(/\n/ig, "<br>");
+//   console.log(strCode);
+//   let strCode = getAssembleCode();
 
   output.innerHTML = strCode;// + '<br><br>' + strWorkSpaceCode;
   updateCodeContainer();
 }
 
-//================================= Coding standards, variables and codes information for added blocks ===================================
+// Coding standards, variables and codes information for added blocks
 let codeType = {header: 'header', variable: 'variable', setupBegin: 'setupBegin', setupCode: 'setupCode', setupEnd: 'setupEnd', method: 'method', loop: 'loop'};
 let assembleBlocks = [];
 
@@ -1440,13 +1434,13 @@ function getAssembleCode() {
     return strAssembleCode;
 }
 
-// ====================================== Get default code by structure name ===================================
+// Get default code by structure name
 function getDefaultCodeByStrName(name) {
     let strCodeByName = '';
 
     switch (name) {
         case 'header':
-            strCodeByName = '<span class="codeHeader">#include "ESP_Blockly.h"';
+            strCodeByName = `<span class='codeHeader'>#include "ESP_Blockly.h"`;
             break;
     
         case 'setupBegin': 
@@ -1471,7 +1465,7 @@ function getDefaultCodeByStrName(name) {
     return strCodeByName;
 }
 
-// ========================= Get bluetoothrx code by name =========================
+// Get bluetoothrx code by name
 function  get_bluetoothrx(name) {
     let strCodeByName = '';
 
@@ -1489,9 +1483,9 @@ function  get_bluetoothrx(name) {
                 break;
         
         case 'setupCode': 
-            strCodeByName = `<span class='ml-tab1'>SerialBT.begin("ESP32_Blutooth");</span>  <br>
-            <span class='ml-tab1'>pinMode(BT_TSK_LED, OUTPUT);//BT_TSK_LED selected pin on which bluetooth is attached, functionality of ping(OUTPUT)</span> <br>
-            <span class='ml-tab1'>xTaskCreate(Bluetooth_Task, "BLUE_TASK",2524,NULL,1,&Task_BLUET_Handle);</span> <br>`;
+            strCodeByName = '<span class="ml-tab1">SerialBT.begin("ESP32_Blutooth");</span>  <br>'+
+            '<span class="ml-tab1">pinMode(BT_TSK_LED, OUTPUT);//BT_TSK_LED selected pin on which bluetooth is attached, functionality of ping(OUTPUT)</span> <br>'+
+            '<span class="ml-tab1">xTaskCreate(Bluetooth_Task, "BLUE_TASK",2524,NULL,1,&Task_BLUET_Handle);</span> <br>';
             break;
     
         case 'method': 
@@ -1522,7 +1516,7 @@ function  get_bluetoothrx(name) {
     return strCodeByName;
 }
 
-// =============================== Get button code by name ==============================
+// Get button code by name
 function  get_button(name) {
     let strCodeByName = '';
 
@@ -1536,138 +1530,137 @@ function  get_button(name) {
                 break;
         
         case 'setupCode': 
-            strCodeByName = `<span class='ml-tab1'>pinMode(A0, INPUT);</span>  <br>
-            <span class='ml-tab1'>xTaskCreate(Taskl "TASK1",1024,NULL,1,&Task_Handle_1);</span> <br>`;
+            strCodeByName = '<span class="ml-tab1">pinMode(A0, INPUT);</span>  <br>'+
+            '<span class="ml-tab1">xTaskCreate(Taskl "TASK1",1024,NULL,1,&Task_Handle_1);</span> <br>';
             break;
     
         case 'method': 
-            strCodeByName = `<br><span class='codeKeyword'>void </span><span class='codeMethod'>IRAM_ATTR Task1</span>(void *parameter)<br>
-            {<br>
-                <span class='ml-tab1'>while(1)</span><br>
-                <span class='ml-tab1'>{</span><br>
-                    <span class='ml-tab2'>if(digitalRead(A0) == 1)</span> <br>
-                    <span class='ml-tab2'>{</span><br>
-                        <span class='ml-tab3'>viaskDelav(50/portTICK PERIOD MS);</span><br>
-                        <span class='ml-tab3'>if(digitalRead(A0) == 1)</span><br>
-                        <span class='ml-tab3'>{</span><br>
-                            <span class='ml-tab4'>ButtonPressed = true;</span><br>
-                        <span class='ml-tab3'>}</span><br>
-                    <span class='ml-tab2'>}</span><br>
-                    <span class='ml-tab2'>if (ButtonPressed == true)</span><br>
-                    <span class='ml-tab2'>{</span><br>
-                        <br>
-                    <span class='ml-tab2'>}</span><br>
-                <span class='ml-tab1'>}</span><br>
-            }<br>`;
+            strCodeByName = '<br><span class=\'codeKeyword\'>void </span><span class=\'codeMethod\'>IRAM_ATTR Task1</span>(void *parameter)<br>'+
+            '{<br>'+
+                '<span class=\'ml-tab1\'>while(1)</span><br>'+
+                '<span class=\'ml-tab1\'>{</span><br>'+
+                    '<span class=\'ml-tab2\'>if(digitalRead(A0) == 1)</span> <br>'+
+                    '<span class=\'ml-tab2\'>{</span><br>'+
+                        '<span class=\'ml-tab3\'>viaskDelav(50/portTICK PERIOD MS);</span><br>'+
+                        '<span class=\'ml-tab3\'>if(digitalRead(A0) == 1)</span><br>'+
+                       '<span class=\'ml-tab3\'>{</span><br>'+
+                           ' <span class=\'ml-tab4\'>ButtonPressed = true;</span><br>'+
+                        '<span class=\'ml-tab3\'>}</span><br>'+
+                    '<span class=\'ml-tab2\'>}</span><br>'+
+                    '<span class=\'ml-tab2\'>if (ButtonPressed == true)</span><br>'+
+                    '<span class=\'ml-tab2\'>{</span><br><br>'+
+                    '<span class=\'ml-tab2\'>}</span><br>'+
+                '<span class=\'ml-tab1\'>}</span><br>'+
+            '}<br>';
             break;
     }
 
     return strCodeByName;
 }
 
-// ============================= Get remote code by name ==================================
+// Get bluetoothrx code by name
 function  get_remote(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-//===================================== Get IR code by name ===================================
+// Get bluetoothrx code by name
 function  get_IR(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ============================== Get lightsensor code by name ===============================
+// Get bluetoothrx code by name
 function  get_lightsensor(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// =============================== Get resistor code by name ==============================
+// Get bluetoothrx code by name
 function  get_resistor(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ========================= Get serialrx code by name ==============================
+// Get bluetoothrx code by name
 function  get_serialrx(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// =================================== Get temperature code by name =======================
+// Get bluetoothrx code by name
 function  get_temperature(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ================================ Get touch_pad code by name =============================
+// Get bluetoothrx code by name
 function  get_touch_pad(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ===================================== Get ultrasonic code by name ===============================
+// Get bluetoothrx code by name
 function  get_ultrasonic(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-//================================ Get bluetoothrx code by name ==================================
+// Get bluetoothrx code by name
 function  get_bluetoothtx(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-//================================= Get buzzer code by name ====================================
+// Get bluetoothrx code by name
 function  get_buzzer(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ================================= Get LCD code by name ====================================
+// Get bluetoothrx code by name
 function  get_lcd(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// =================================== Get LED code by name ======================================
+// Get bluetoothrx code by name
 function  get_led(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ================================== Get motor code by name ==========================================
+// Get bluetoothrx code by name
 function  get_motor(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ================================= Get bluetomp3_playerothrx code by name ==============================
+// Get bluetoothrx code by name
 function  get_mp3_player(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ============================== Get relay code by name =======================================
+// Get bluetoothrx code by name
 function  get_relay(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ========================= Get rgbstrip code by name =====================================
+// Get bluetoothrx code by name
 function  get_rgbstrip(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-//================================== Get servo_device code by name ==================================
+// Get bluetoothrx code by name
 function  get_servo_device(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
 
-// ================================== Get steppermotor code by name ===================================
+// Get bluetoothrx code by name
 function  get_steppermotor(name) {
     let strCodeByName = '';
     return strCodeByName;
@@ -1708,8 +1701,7 @@ function  get_waitinput(name) {
     let strCodeByName = '';
     return strCodeByName;
 }
-//====================================================================================================================
-//===================== the menu components (Input, Output, Flow, Logic, Variables, Text, Array, Advanced)========================
+
 const injectToolbox = () => {
   let menus = [
                     {
@@ -1839,7 +1831,6 @@ const injectToolbox = () => {
 //   if (workspace)
 //       workspace.dispose();
 //   workspace = Blockly.inject('blocklyDiv', {
-//========================Start to collect the workspace component and scale in xml format ============================
   if (Code.workspace)
       Code.workspace.dispose();
   Code.workspace = Blockly.inject('blocklyDiv', {
@@ -2085,7 +2076,7 @@ Blockly.Blocks.fno_decompose = function (a, currentBlock) {
     }
     return b;
 };
-//====================================================================
+
 Blockly.Blocks.fn_compose = function (a, currentBlock) {
   var b = a.nextConnection.targetBlock();
   currentBlock.andCount_ = 0;
@@ -4999,6 +4990,7 @@ Blockly.Arrays.generateUniqueName = function (a, b) {
         } else b = "i";
     return b
 };
+//=================================================
 Blockly.Arrays.createArray = function (a, type) {
     var callbackcall = function (b, value, arraysize) {
         if (b) {
@@ -5088,6 +5080,7 @@ Blockly.FieldArray.prototype.setValue = function (a) {
     this.value_ = a;
     this.text_ = a; //this.setText(a)
 };
+//=============================================================
 Blockly.FieldArray.dropdownCreate = function () {
     var str = this.sourceBlock_;
     var a = this.sourceBlock_ && this.sourceBlock_.workspace ? Blockly.Workspace.prototype.arrayList.slice(0) : [],
@@ -5098,9 +5091,10 @@ Blockly.FieldArray.dropdownCreate = function () {
     a.push(Blockly.Msg.CHANGE_ARRAY_INITIAL_VALUE);
     a.push(Blockly.Msg.DELETE_Array.replace("%1", b));
     for (var b = [], c = 0; c < a.length; c++) b[c] = [a[c], a[c]];
-    return b
+    return b;
 };
 Blockly.arrayDeleteFunction = function (arrayName) {
+window.alert("arrayDeleteFunction"+arrayName);
     return Blockly.Workspace.prototype.deleteArray(arrayName), null;
 };
 // FieldArray Functions - ends
@@ -5197,7 +5191,10 @@ Blockly.Variables.generateUniqueName = function (a) {
         } else b = "i";
     return b
 };
+//=============================================================
 Blockly.Variables.createVariable = function (a, type) {
+window.alert("create var in main"+a);
+window.alert("create var in main"+type);
     var callback = function (b, value) {
         if (b) {
             b = b.replace(/ /g, '_');
@@ -5222,7 +5219,9 @@ Blockly.Variables.createVariable = function (a, type) {
         Code.createVariablePopup(callback)
     }
 };
+//=================================Rename From Menu=======================================
 Blockly.Variables.promptName = function (a, b, callbackVarReName) {
+//window.alert("rename");
     console.log('Blockly.Variables.promptName');
     b = a.split("'") && a.split("'").length > 1 && a.split("'")[1];
     //a=title //b=var name
@@ -5232,6 +5231,7 @@ Blockly.Variables.promptName = function (a, b, callbackVarReName) {
         // callbackVarReName(prev_name, c);
     });
 };
+//======================================================
 Blockly.Variables.promptValue = function (a, b, callback) {
     var index = Code.workspace.variableIndexOf(b);
     if (index !== -1) {
@@ -5243,9 +5243,12 @@ Blockly.Variables.promptValue = function (a, b, callback) {
         Code.createchangeInitialVariablePopup(a, b, call);
     }
 };
+//=======================Delete from Variable Set================================
 Blockly.variableDeleteFunction = function (arrayName) {
+window.alert("first");
     return Blockly.Workspace.prototype.deleteVariable(arrayName), null
 };
+//===========================================
 // Variable Functions - ends
 
 // Text Functions - begins
@@ -5427,46 +5430,44 @@ Blockly.FlyoutButton.prototype.onMouseUp = function (a) {
         }
     }
 };
-//=====================================================
-//Blockly.Flyout.prototype.show = function (a) {
-//    this.workspace_.setResizesEnabled(!1);
-//    this.hide();
-//    this.clearOldBlocks_();
-//    let strCategory = '';
+////Blockly.Flyout.prototype.show = function (a) {
+////    this.workspace_.setResizesEnabled(!1);
+////    this.hide();
+////    this.clearOldBlocks_();
+////    let strCategory = '';
 
-//    setTimeout(() => {
-//        strCategory = this.workspace_.targetWorkspace.toolbox_.lastCategory_.styleName;
+////    setTimeout(() => {
+////        strCategory = this.workspace_.targetWorkspace.toolbox_.lastCategory_.styleName;
 
-//        if (strCategory == Blockly.Variables.NAME_TYPE) {
-//            a = Blockly.Variables.flyoutCategory(this.workspace_.targetWorkspace)
-//        }
-//        else if (strCategory == Blockly.Text.NAME_TYPE) {
-//            a = Blockly.Text.flyoutCategory(this.workspace_.targetWorkspace)
-//        }
-//        else if (strCategory == Blockly.Arrays.NAME_TYPE) {
-//            a = Blockly.Arrays.flyoutCategory(this.workspace_.targetWorkspace)
-//        }
-//    
-//        this.setVisible(!0);
-//        a = Blockly.utils.toolbox.convertToolboxToJSON(a);
-//        a = this.createFlyoutInfo_(a);
-//        this.layout_(a.contents, a.gaps);
-//    
-//        this.listeners_.push(Blockly.bindEventWithChecks_(this.svgBackground_,
-//            "mouseover", this,
-//            function () {
-//                for (var a = this.workspace_.getTopBlocks(!1), b = 0, c; c = a[b]; b++) c.removeSelect()
-//            }));
-//        this.horizontalLayout ? (this.height_ = 0) : (this.width_ = 0);
-//        this.workspace_.setResizesEnabled(!0);
-//        this.reflow();
-//        this.filterForCapacity_();
-//        this.position();
-//        this.reflowWrapper_ = this.reflow.bind(this);
-//        this.workspace_.addChangeListener(this.reflowWrapper_);
-//    }, 0);
-//};
-//==============================================================
+////        if (strCategory == Blockly.Variables.NAME_TYPE) {
+////            a = Blockly.Variables.flyoutCategory(this.workspace_.targetWorkspace)
+////        }
+////        else if (strCategory == Blockly.Text.NAME_TYPE) {
+////            a = Blockly.Text.flyoutCategory(this.workspace_.targetWorkspace)
+////        }
+////        else if (strCategory == Blockly.Arrays.NAME_TYPE) {
+////            a = Blockly.Arrays.flyoutCategory(this.workspace_.targetWorkspace)
+////        }
+////    
+////        this.setVisible(!0);
+////        a = Blockly.utils.toolbox.convertToolboxToJSON(a);
+////        a = this.createFlyoutInfo_(a);
+////        this.layout_(a.contents, a.gaps);
+////    
+////        this.listeners_.push(Blockly.bindEventWithChecks_(this.svgBackground_,
+////            "mouseover", this,
+////            function () {
+////                for (var a = this.workspace_.getTopBlocks(!1), b = 0, c; c = a[b]; b++) c.removeSelect()
+////            }));
+////        this.horizontalLayout ? (this.height_ = 0) : (this.width_ = 0);
+////        this.workspace_.setResizesEnabled(!0);
+////        this.reflow();
+////        this.filterForCapacity_();
+////        this.position();
+////        this.reflowWrapper_ = this.reflow.bind(this);
+////        this.workspace_.addChangeListener(this.reflowWrapper_);
+////    }, 0);
+////};
 Blockly.Flyout.prototype.addBlockListeners_ = function (a, b, c) {
     this.listeners_.push(Blockly.bindEventWithChecks_(a, "mousedown", null, this.blockMouseDown_(b)));
     this.listeners_.push(Blockly.bindEventWithChecks_(c, "mousedown", null, this.blockMouseDown_(b)));

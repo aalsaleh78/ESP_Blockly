@@ -75,7 +75,7 @@ Blockly.Workspace.prototype.dispose = function () {
 Blockly.Workspace.SCAN_ANGLE = 3;
 //=======================================when adding Variables, Arrays, Text==============================
 Blockly.Workspace.prototype.addTopBlock = function (a) {
-    //window.alert("add top block");
+    window.alert("add top block");
     console.log(a);
     this.topBlocks_.push(a);
     if (this.isFlyout) {
@@ -87,13 +87,14 @@ Blockly.Workspace.prototype.addTopBlock = function (a) {
 };
 ///===============================remove the top block at the workspace from components array============================================
 Blockly.Workspace.prototype.removeTopBlock = function (a) {
-    //window.alert("remove top block");
+    window.alert("remove top block");
     if (!goog.array.remove(this.topBlocks_, a)) throw "Block not present in workspace's list of top-most blocks.";
 };
 //============================get the block regarding the screen X, Y (SVG)==================================================
 Blockly.WorkspaceSvg.prototype.getTopBlocks = function (a) {
-    //window.alert("get top block svg");
+
     var b = [].concat(this.topBlocks_);
+    
     if (a && 1 < b.length) {
         var c = Math.sin(goog.math.toRadians(Blockly.Workspace.SCAN_ANGLE));
         this.RTL && (c *= -1);
@@ -103,14 +104,16 @@ Blockly.WorkspaceSvg.prototype.getTopBlocks = function (a) {
             return f.y + c * f.x - (g.y + c * g.x)
         })
     }
+    // window.alert("b=" + b);
     return b
 }
 //=====================================get the block regarding the screen X, Y==================================================
 Blockly.Workspace.prototype.getTopBlocks = function (a) {
-    //window.alert("get top block");
-    //window.alert(a);
+   window.alert("get top block");
+
     console.log(Blockly.Workspace.prototype.topBlocks_);
     var b = [].concat(Blockly.Workspace.prototype.topBlocks_);
+    window.alert("block lenth" + b.length);
     if (a && 1 < b.length) {
         var c = Math.sin(goog.math.toRadians(Blockly.Workspace.SCAN_ANGLE));
         this.RTL && (c *= -1);
@@ -125,16 +128,19 @@ Blockly.Workspace.prototype.getTopBlocks = function (a) {
 };
 //===========================function to retrieve all the blocks in the workspace========================================
 Blockly.Workspace.prototype.getAllBlocks = function () {
-   // window.alert("get getAllBlocks");
+    var s = [].concat(Blockly.Workspace.prototype.topBlocks_);
+    window.alert("get getAllBlocks" + s.length);
     console.log(this.getTopBlocks(!1));
     for (var a = this.getTopBlocks(!0), b = 0; b < a.length; b++) {
         a.push.apply(a, a[b].getChildren());
-        //window.alert("get all blocks" + a[b]);
-        return a
+        window.alert("get all blocks" + a.length);
+        return a;
     }
+
 };
 //====================function to clear the workspace from any blocks======================================
 Blockly.Workspace.prototype.clear = function () {
+    window.alert("get clear ws");
     var a = Blockly.Events.getGroup();
     for (a || Blockly.Events.setGroup(!0); this.topBlocks_.length; ) this.topBlocks_[0].dispose();
     a || Blockly.Events.setGroup(!1);
@@ -149,7 +155,7 @@ Blockly.Workspace.prototype.clear = function () {
 //================================Not Called=======================================
 
 Blockly.Workspace.prototype.updateVariableList = function (a) {
-    //window.alert("updateVariableList");
+    window.alert("updateVariableList");
     //window.alert(a);
     if (!this.isFlyout) {
         a && (this.variableList.length = 0);
@@ -199,11 +205,12 @@ Blockly.Workspace.prototype.changeInitialArray = function (a, b) {
 //===============================renameVariable from Menue of block=======================================
 Blockly.Workspace.prototype.renameVariable = function (a, b) {
     console.log(this);
-    //window.alert(this);
-    //window.alert(a);
-    // window.alert(b);
+////    window.alert("Rename");
+////    window.alert(a);
+////    window.alert(b);
     console.log('rename var', a, b);
     b = b.replace(/ /g, '_');
+    //window.alert("Rename");
     var c = this.variableIndexOf(a),
         d = this.variableIndexOf(b);
 
@@ -213,19 +220,35 @@ Blockly.Workspace.prototype.renameVariable = function (a, b) {
 
     }
     Blockly.Events.setGroup(!0);
-    console.log(this.getAllBlocks());
+    //console.log(this.getAllBlocks());
     //window.alert(this.getAllBlocks().length);
     //window.alert(console.log.toString());
-    for (var f = this.getAllBlocks(), g = 0; g < f.length; g++) {
-        //window.alert(f[g]);
-        f[g].renameVar(a, b), e && f[g].renameVar(e, b);
-    }
-    //window.alert(e);
+    ////    for (var f = this.getAllBlocks(), g = 0; g < f.length; g++) {
+    ////        //window.alert("f.length==" + f.length);
+    ////        f[g].renameVar(a, b), e && f[g].renameVar(e, b);
+    ////    }
+//    window.alert("a==" + a);
+//    window.alert("b==" + b);
+//    window.alert("c==" + c);
+//    window.alert("d==" + d);
+//    window.alert("e==" + e);
     Blockly.Events.setGroup(!1);
-    c == d || -1 != c && -1 == d ? this.variableList[c] = b : -1 != c && -1 != d ? (this.variableList.splice(c, 1), this.variableList[d] = b) : (this.variableList.push(b), console.log("Tried to rename an non-existent variable."))
+////    window.alert("0==" + this.variableList[0]);
+////    window.alert("1==" + this.variableList[1]);
+    if (d == -1) {
+        //window.alert("old rfemoved");
+        this.variableList.splice(c, 1);
+        //this.variableList.push(b);
+    }
+    //(c == d || -1 != c) && -1 == d ? this.variableList[c] = b : -1 != c && -1 != d ? (this.variableList.splice(c, 1), this.variableList[d] = b) : (this.variableList.push(b), console.log("Tried to rename an non-existent variable."))
+
+////    window.alert("0==" + this.variableList[0]);
+////    window.alert("1==" + this.variableList[1]);
+    //a.createVariable(b,'int_c');
     toCode('ESP32');
-    //window.alert(this.variableList[0]);
-    //window.alert(this.variableList[1]);
+    //Blockly.ESP32.finish(
+
+
 };
 //===============================Rename array (Has error)=======================================
 Blockly.Workspace.prototype.renameArray = function (a, b) {
@@ -242,11 +265,11 @@ Blockly.Workspace.prototype.renameArray = function (a, b) {
 };
 //============================when create new variable with name, value================================
 Blockly.Workspace.prototype.createVariable = function (a, b, c) {
-    //window.alert("createVariable");
-    //window.alert(this.variableIndexOf(a));
-    //window.alert(this.variableList[0]);
-    //window.alert(this.variableList[1]);
-    //window.alert(c);
+////    window.alert("createVariable"+a+"  "+b+"  "+c);
+////    window.alert(this.variableIndexOf(a));
+////    window.alert(this.variableList[0]);
+////    window.alert(this.variableList[1]);
+////    window.alert(c);
     //if(this.variableIndexOf(a)==-
 
 -1 == this.variableIndexOf(a) && this.variableList.push(a) && this.variableValueList.push(b)
@@ -257,6 +280,7 @@ Blockly.Workspace.prototype.createVariable = function (a, b, c) {
 };
 //===========================create array at the workspace====================================
 Blockly.Workspace.prototype.createArray = function (a, b, c) {
+    //window.alert("createArray a==" + a);
 -1 == this.arrayIndexOf(a) && this.arrayList.push(a) && this.arrayValueList.push(b) && this.arraydrpwnvalues.push(c)
 };
 //===============================create Text at the workspace================================
@@ -279,19 +303,21 @@ return temp;
 }; */
 //===========================get the used variables at the workspace=========================================
 Blockly.Workspace.prototype.getVariableUses = function (a) {
-    //window.alert("get used vars");
+    window.alert("get used vars");
     for (var b = [], c = this.getAllBlocks(), d = 0; d < c.length; d++) {
         var e = c[d].getVars();
+        window.alert("e" + e);
         if (e)
             for (var f = 0; f < e.length; f++) {
                 var g = e[f];
                 g && Blockly.Names.equals(g, a) && b.push(c[d])
             }
     }
-    return b
+    return b;
 };
 //=======================get the used array at the workspace==========================
 Blockly.Workspace.prototype.getArrayUses = function (a) {
+    window.alert("getArrayUses a=="+a);
     for (var b = [], c = this.getAllBlocks(), d = 0; d < c.length; d++) {
         var e = c[d].getArry();
         if (e)
@@ -316,26 +342,26 @@ Blockly.Workspace.prototype.getTextUses = function (a) {
 };
 //=======================Delete a variable from Variable Set===========================
 Blockly.Workspace.prototype.deleteVariable = function (a) {
-    //window.alert("Delete menue");
-    //window.alert(b);
+    window.alert("Delete menue deleteVariable");
+    window.alert(a);
     var b = this.variableIndexOf(a);
-    //window.alert(b);
+    window.alert(b);
     if (-1 != b) {
         var c = this.getVariableUses(a);
-        //window.alert(c);
+        window.alert("c"+c);
         if (1 < c.length) {
             for (var d = 0, e; e = c[d]; d++)
                 if ("procedures_defnoreturn" == e.type || "procedures_defreturn" == e.type) {
                     b = e.getFieldValue("NAME");
                     window.alert(Blockly.Msg.CANNOT_DELETE_VARIABLE_PROCEDURE.replace("%1", a).replace("%2", b));
-                    return
+                    return;
                 }
             if (!window.confirm(Blockly.Msg.DELETE_VARIABLE_CONFIRMATION.replace("%1", c.length).replace("%2", a))) {
-                //window.alert("Return");
-                return
+                window.alert("Return");
+                return;
             }
         }
-        //window.alert("here");
+        window.alert("here");
         Blockly.Events.setGroup(!0);
         for (d = 0; d < c.length; d++) c[d].dispose(!0, !1);
         Blockly.Events.setGroup(!1);
@@ -343,11 +369,12 @@ Blockly.Workspace.prototype.deleteVariable = function (a) {
         this.variableValueList.splice(b, 1);
     }
     Code.renderContent(false);
-    Code.listVariablePopup('toolbox')
+    Code.listVariablePopup('toolbox');
     toCode('ESP32');
 };
 //==========================delete an array fro mworkspace=================================
 Blockly.Workspace.prototype.deleteArray = function (a) {
+    window.alert("Delete array");
     var b = this.arrayIndexOf(a);
     if (-1 != b) {
         var c = this.getArrayUses(a);
@@ -373,6 +400,7 @@ Blockly.Workspace.prototype.deleteArray = function (a) {
 };
 //================================delete text from the workspace=================================
 Blockly.Workspace.prototype.deleteText = function (a) {
+    window.alert("Delete text");
     var b = this.textIndexOf(a);
     if (-1 != b) {
         var c = this.getTextUses(a);
@@ -459,7 +487,7 @@ Blockly.Workspace.prototype.fireChangeListener = function (a) {
 };
 //=========================get block at the workspace by ID==============================
 Blockly.Workspace.prototype.getBlockById = function (a) {
-    //window.alert("getBlockById");
+    window.alert("getBlockById");
     return this.blockDB_[a] || null
 };
 Blockly.Workspace.WorkspaceDB_ = Object.create(null);

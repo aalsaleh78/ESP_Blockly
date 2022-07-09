@@ -33,6 +33,7 @@ Blockly.Blocks['array_node'] = {
 
         if (!this.isInFlyout) {
             this.appendShadowBlock(varValue2);
+            //appendShadowBlock
         }
         else {
             Panel1.setVisible(false);
@@ -41,7 +42,6 @@ Blockly.Blocks['array_node'] = {
 
         varValue1.setVisible(false);
     },
-    //====================== in case of user customization ======================
     onchange: function (ev) {
         if (!this.isInFlyout) {
             if (this.colour_ !== Code.multiColor.array) {
@@ -99,7 +99,6 @@ Blockly.Blocks['array_node'] = {
             }
         }
     },
-    //======================== to get the values selected by the user =====================
     getDropDownValues: function (arrayname) {
         var arrayindex = Blockly.Workspace.prototype.arrayList.indexOf(arrayname);
         var arraySize = Blockly.Workspace.prototype.arraydrpwnvalues[arrayindex];
@@ -128,7 +127,7 @@ Blockly.Blocks['array_node'] = {
         }
     }
 };
-//===================================== Define the components of access_elements block   ===============================
+
 Blockly.Blocks['access_elements'] = {
     init: function () {
         var thisBlock = this;
@@ -156,7 +155,6 @@ Blockly.Blocks['access_elements'] = {
         Panel1.setVisible(false);
         varValue.setVisible(false);
     },
-    //====================== in case of user customization ======================
     onchange: function (ev) {
         if (!this.isInFlyout) {
             if (this.colour_ !== Code.multiColor.array) {
@@ -207,7 +205,6 @@ Blockly.Blocks['access_elements'] = {
             }
         }
     },
-    //======================== to get the values selected by the user =====================
     getDropDownValues: function (arrayname) {
         var arrayindex = Code.workspace.arrayList.indexOf(arrayname);
         var arraySize = Code.workspace.arraydrpwnvalues[arrayindex];

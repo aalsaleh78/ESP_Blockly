@@ -15,6 +15,7 @@ Blockly.Generator.prototype.ORDER_OVERRIDES = [];
 //=========================================================================
 //===============================generate the code from the current workspace====================================
 Blockly.Generator.prototype.workspaceToCode = function (a) {
+    //window.alert("workspaceToCode==" +a);
     a || (console.warn("No workspace specified in workspaceToCode call.  Guessing."), a = Blockly.getMainWorkspace());
     //window.alert("workspaceToCode");
     //Blockly.Workspace.prototype.updateVariableList(a);
@@ -22,14 +23,44 @@ Blockly.Generator.prototype.workspaceToCode = function (a) {
     var b = [];
     console.log(a);
     this.init(a);
+    //a = "";
     a = a.getTopBlocks(!0);
+   // window.alert("workspaceToCode2");
+       // window.alert("before getTopBlocks a=" + a.length);
+    ////    a.length = 4;
+       // window.alert("After getTopBlocks a=" +a.length);
     for (var c = 0, d; d = a[c]; c++) {
+
         var e = this.blockToCode(d);
-        //window.alert(e);
+        //window.alert("workspaceToCodeStatement==>" + e);
+        //window.alert("workspaceToCode3");
+        //window.alert("a[0]=" + a[0]);
+        //window.alert("d=" + d);
+        //window.alert("e=" + e);
+        //if (b.indexOf(e)>=0) continue;
         goog.isArray(e) && (e = e[0]);
+        //window.alert("b length==" + b.length);
+        var unique = [];
+        for (var i = 0, n; n = b.pop(); i++) {
+            //var n = 
+            // window.alert("n==" + n);
+            if (unique.indexOf(n) < 0) {
+                unique.push(n);
+            }
+        }
+        //window.alert("workspaceToCode4");
         e && (d.outputConnection && this.scrubNakedValue && (e = this.scrubNakedValue(e)), b.push(e))
     }
+    //    var unique = [];
+    //    for (var i = 0; i < b.length; i++) {
+    //        if (unique.indexOf(b[i]) < 0) {
+    //            unique.push(b[i]);
+    //        }
+    //    }
+    // window.alert("b=" + b);
+    // window.alert("unique=" + unique);
     b = b.join("\n");
+    if (e == "") { Blockly.Workspace.prototype.variableList.length = 0; }
     b = this.finish(b);
     //window.alert(b.replace(/[ \t]+\n/g, ""));
 
@@ -37,6 +68,7 @@ Blockly.Generator.prototype.workspaceToCode = function (a) {
 };
 //============================add prefix line to the code==================================
 Blockly.Generator.prototype.prefixLines = function (a, b) {
+    //window.alert("a==>" + a + "  b==>" + b);
     return b + a.replace(/(?!\n$)\n/g, "\n" + b)
 };
 //========================get the comment text to add it in the code ====================================
@@ -55,23 +87,31 @@ Blockly.Generator.prototype.blockToCode = function (a) {
     //window.alert("blockToCode"+a);
     if (!a) return "";
     var cc = a.getNextBlock();
-    //window.alert("next block : "+cc);
+    //window.alert("next block : " + this.blockToCode(cc));
     if (a.disabled) return this.blockToCode(cc);
     var b = this[a.type];
+    //window.alert("next block : b== " + b);
     goog.asserts.assertFunction(b, 'Language "%s" does not know how to generate code for block type "%s".', this.name_, a.type);
     if (b) {
         b = b.call(a, a);
+        //window.alert("next block : b2== " + b);
+        //window.alert("blockToCode2");
         //window.alert(b);
     }
     else {
         b = Blockly.ESP32.myNodesCode.call(a, a);
+        //window.alert("next block : b3== " + b);
+        //window.alert("blockToCode3");
     }
     if (goog.isArray(b)) return goog.asserts.assert(a.outputConnection, 'Expecting string from statement block "%s".', a.type), [this.scrub_(a, b[0]), b[1]];
     if (goog.isString(b)) {
+        //window.alert("next block : b4== " + b);
         var c = a.id.replace(/\$/g, "$$$$");
         // window.alert(a);
         this.STATEMENT_PREFIX && (b =
             this.STATEMENT_PREFIX.replace(/%1/g, "'" + c + "'") + b);
+        //window.alert("blockToCode" + a);
+        //window.alert("blockToCode5");
         return this.scrub_(a, b)
     }
     if (null === b) return "";
@@ -132,4 +172,7 @@ Blockly.Generator.prototype.provideFunction_ = function (a, b) {
     }
     return this.functionNames_[a]
 };
+
+Blockly.Block.prototype.getNextBlock = function () 
+{ return this.nextConnection && this.nextConnection.targetBlock() };
 // Override Blockly Generator's function - begins
